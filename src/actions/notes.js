@@ -12,7 +12,8 @@ export const startNewNote = () => {
         const newNote = {
             title: '',
             body: '',
-            date: new Date().getTime()
+            date: new Date().getTime(),
+            url: null
         }
 
         const doc = await db.collection(`${uid}/journal/notes`).add(newNote);
@@ -24,6 +25,7 @@ export const startNewNote = () => {
 }
 
 export const activeNote = (id, note) => {
+    //console.log(note);
     return{
         type: types.notesActive,
         payload: {
@@ -106,7 +108,7 @@ export const startUploading = (file) => {
             text: 'Please wait...',
             allowOutsideClick: false,
             showConfirmButton: false,
-            onBeforeOpen: ()=>{
+            willOpen: ()=>{
                 Swal.showLoading();
             }
         });

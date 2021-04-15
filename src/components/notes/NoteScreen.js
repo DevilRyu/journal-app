@@ -8,30 +8,35 @@ export const NoteScreen = () => {
 
     const dispatch = useDispatch();
 
-    const { active: note } = useSelector(state => state.notes)
+    const { active: note } = useSelector(state => state.notes);
 
     const [formValues, handleInputChange, reset] = useForm(note);
 
-    const { title, body } = formValues;
+    const { title, body} = formValues;
 
-    const activeId  = useRef(note.id);
+    const activeId = useRef(note.id);
 
+    
     useEffect(() => {
-        if(note.id !== activeId.current){
+        if (note.id !== activeId.current) {
             reset(note);
             activeId.current = note.id;
         }
-    }, [note,reset]);
+    }, [note, reset]);
 
     useEffect(() => {
-        
-        dispatch(activeNote(formValues.id,{...formValues}));
 
-    }, [formValues,dispatch]);
+        dispatch(activeNote(formValues.id, { ...formValues }));
+
+    }, [formValues, dispatch]);
 
     const handleDelete = () => {
         dispatch(startDeleting(activeId.current));
     };
+
+    const change = (e) =>{
+        handleInputChange(e, note.url);
+    }
 
     return (
         <div className="notes__main-content">
@@ -47,7 +52,7 @@ export const NoteScreen = () => {
                     autoComplete="off"
                     name="title"
                     value={title}
-                    onChange={handleInputChange}
+                    onChange={change}
                 />
 
                 <textarea
@@ -55,13 +60,14 @@ export const NoteScreen = () => {
                     className="notes__textarea"
                     name="body"
                     value={body}
-                    onChange={handleInputChange}
+                    onChange={change}
                 ></textarea>
 
                 {
                     (note.url)
                     &&
-                    (<div className="notes__image">
+                    (<div className="notes__image"
+                    >
                         <img
                             src={note.url}
                             alt="imagen"

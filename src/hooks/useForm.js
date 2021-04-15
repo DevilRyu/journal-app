@@ -7,17 +7,19 @@ export const useForm = ( initialState = {} ) => {
 
     const reset = (newFormState = initialState) => {
         setValues( newFormState );
-    }
+    };
 
+    const handleInputChange = ({ target }, url) => {
 
-    const handleInputChange = ({ target }) => {
+        console.log(target.name);
 
         setValues({
             ...values,
-            [ target.name ]: target.value
+            [ target.name ]: target.value,
+            url
         });
 
-    }
+    };
 
     return [ values, handleInputChange, reset ];
 
